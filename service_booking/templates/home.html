@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+    <h1>Welcome to Home Page</h1>
+    <a href="{% url 'login' %}">Login</a> |
+    <a href="{% url 'register' %}">Register</a> |
+    <a href="{% url 'services' %}">Services</a> |
+    {% comment %} <a href="{% url 'book_service' service_id=service.id %}">Book this Service</a> {% endcomment %}
+
+</body>
+</html>

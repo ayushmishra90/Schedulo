@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Services</title>
+</head>
+<body>
+    <h1>Book a Service</h1>
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="service_name" placeholder="Service Name" required><br><br>
+        <input type="text" name="customer_name" placeholder="Your Name" required><br><br>
+        <input type="date" name="date" required><br><br>
+        <button type="submit">Book Now</button>
+    </form>
+    <a href="{% url 'services' %}">Back to Services</a> |
+    <a href="{% url 'home' %}">Home</a>
+
+</body>
+</html>
