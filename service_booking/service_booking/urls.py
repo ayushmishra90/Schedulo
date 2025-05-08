@@ -16,9 +16,14 @@ Including another URLconf
 """
 # service_booking/urls.py
 from django.contrib import admin
+from service_app import views  # Import your views here
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib.auth.urls import views as auth_views
 
-urlpatterns = [
+urlpatterns = [ # Add a home view if needed
     path('admin/', admin.site.urls),
-    path('', include('service_app.urls')),  # Include the service app URLs
-]
+    path('', include('service_app.urls')),
+    path('accounts/',include('django.contrib.auth.urls')),
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)  # Serve static files in development

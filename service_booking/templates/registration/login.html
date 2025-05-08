@@ -1,0 +1,17 @@
+{% extends "home.html" %}
+
+{% block content %}
+<h1>Login form</h1>
+
+<form method="post" action="{% url 'login' %}?next={{ next|urlencode }}">
+
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn-primary">Login</button>
+</form>
+
+<p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+{% if next %}
+    <p>After logging in, you will be redirected to: {{ next }}</p>
+{% endif %}
+{% endblock %}

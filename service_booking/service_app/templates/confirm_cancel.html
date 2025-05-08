@@ -1,0 +1,28 @@
+{% extends "home.html" %}
+{% block content %}
+<script>
+  window.addEventListener('pageshow', function (event) {
+      if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
+          window.location.reload();
+      }
+  });
+</script>
+
+  <div class="container">
+    <h2>Cancel Booking</h2>
+    <p>Are you sure you want to cancel the booking for <strong>{{ booking.service.name }}</strong> on {{ booking.date }}?</p>
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">Yes, Cancel</button>
+      <a href="{% url 'my_bookings' %}" class="btn btn-secondary">No, Go Back</a>
+    </form>
+    <script>
+      if (window.history && window.history.pushState) {
+          window.history.pushState(null, "", window.location.href);
+          window.onpopstate = function () {
+              window.location.href = "{% url 'services' %}";
+          };
+      }
+  </script>
+  </div>
+{% endblock %}
