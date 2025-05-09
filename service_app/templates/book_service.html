@@ -1,0 +1,57 @@
+{% extends "home.html" %}
+
+{% block title %}
+    Book Service
+{% endblock %}
+
+{% block content %}
+<script>
+    window.addEventListener('pageshow', function (event) {
+        if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
+            window.location.reload();
+        }
+    });
+</script>
+
+    <h1>Book Service: {{ service.name }}</h1>
+    <p>You are booking: <strong>{{ service.name }}</strong></p>
+
+    {% if error %}
+        <div class="alert alert-danger">
+            {{ error }}
+        </div>
+    {% endif %}
+
+    {% if selected_date %}
+        <div class="alert alert-info">
+            <strong>Confirm Your Booking</strong><br>
+            Service: <strong>{{ service.name }}</strong><br>
+            Description: {{ service.description }}<br>
+            Date: <strong>{{ selected_date }}</strong><br>
+            Owner: <strong>{{ service.owner.username }}</strong>
+        </div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        
+        {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                    <div class="invalid-feedback">
+                        {% for error in field.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+        
+        <button type="submit" name="confirm" class="btn btn-success">Confirm Booking</button>
+        <button type="button" class="btn btn-danger" onclick="window.location.href='{% url 'services' %}'">Cancel</button>
+
+    </form>
+
+{% endblock %} 
