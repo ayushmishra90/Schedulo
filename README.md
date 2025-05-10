@@ -1,88 +1,86 @@
-# 🛠 Schedulo App
 
-Schedulo is a Django-based web app for managing and booking services with role-based access for service providers and customers.
+# 🛠 Schedulo – Django Service Booking App
 
-🌐 **Live Demo**: [schedulo-qg6d.onrender.com](https://schedulo-qg6d.onrender.com)
+A **simple, secure, and responsive** service booking application built with Django. It allows users to post services and customers to book them. Includes authentication, booking management, and admin control — **no Django REST Framework (DRF)**.
+
+🌐 **Live Demo**: [https://schedulo-qg6d.onrender.com](https://schedulo-qg6d.onrender.com)
 
 ---
 
-## 🚀 Features
+## 🌟 Features
 
-### 👥 Authentication
-- User Registration, Login, and Logout
-- Role-based dashboard (Service Provider / Customer)
+### 👥 User Authentication
+- Register, login, logout
+- Secure password hashing and session-based login
 
 ### 🧾 Service Management
-- **Add New Service**: Add name, description, price, estimated time.
-- **View/Delete Services**: Manage your posted services.
-- **Change Booking Status**: Set status to Pending, Accepted, Rejected, or Completed for services you own.
+- Add/view/delete services (with price & duration)
+- Track booking status: `Pending`, `Accepted`, `Rejected`, `Completed`
 
 ### 📅 Booking System
-- Book services for a specific date.
-- Track your bookings.
-- View requests for services you own and manage their statuses.
+- Book a service by choosing a date
+- Customers can view their bookings
+- Providers can manage bookings
 
 ### 🛡 Admin Panel
-- Manage users, services, and bookings via Django admin.
+- Superuser can:
+  - Manage users
+  - Oversee bookings and services
+- Built-in Django Admin styled via static files
 
 ---
 
 ## 🛠 Tech Stack
 
-- **Backend**: Django 5.1.5
-- **Frontend**: HTML5, CSS, Bootstrap 5
-- **Database**: PostgreSQL (via `dj-database-url`)
-- **Hosting**: Render.com
+- **Backend**: Django
+- **Frontend**: Bootstrap 5 + Django Templates
+- **Database**: SQLite (local), PostgreSQL (production)
+- **Hosting**: Render
+- **Static Serving**: WhiteNoise
 
 ---
 
-## 📦 Installation
+## 🚀 Getting Started
 
-### 1️⃣ Clone the Repository
-
-```bash
-git clone https://github.com/your-username/service-booking-app.git
-cd service-booking-app
-```
-
-### 2️⃣ Create and Activate Virtual Environment
+### 1. Clone the Repository
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate     # On Windows: .venv\Scripts\activate
+git clone https://github.com/your-username/service-booking.git
+cd service-booking
 ```
 
-### 3️⃣ Install Dependencies
+### 2. Create & Activate Virtual Environment
+
+```bash
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scriptsctivate
+```
+
+### 3. Install Requirements
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4️⃣ Set Environment Variables
-
-Create a `.env` file in the project root:
-
-```
-SECRET_KEY=your-secret-key
-DEBUG=True
-ALLOWED_HOSTS=127.0.0.1,localhost
-DATABASE_URL=your-postgres-database-url
-```
-
-### 5️⃣ Run Migrations
+### 4. Setup the Database
 
 ```bash
-python manage.py makemigrations
 python manage.py migrate
 ```
 
-### 6️⃣ Create Superuser
+### 5. Create a Superuser
 
 ```bash
 python manage.py createsuperuser
 ```
 
-### 7️⃣ Run the Development Server
+### 6. Collect Static Files
+
+```bash
+python manage.py collectstatic
+```
+
+### 7. Run the Server
 
 ```bash
 python manage.py runserver
@@ -92,44 +90,67 @@ Visit: [https://schedulo-qg6d.onrender.com](https://schedulo-qg6d.onrender.com)
 
 ---
 
-## 🚀 Deployment (Render)
+## 🔧 Render Deployment Notes
 
-- **Set Environment Variables** in the Render dashboard:
-  - `SECRET_KEY`
-  - `DEBUG=False`
-  - `ALLOWED_HOSTS=schedulo-qg6d.onrender.com`
-  - `DATABASE_URL`
+### Build Command
 
-- **Build Command**: `pip install -r requirements.txt`
-- **Start Command**: `gunicorn service_booking.wsgi:application`
+```bash
+python manage.py collectstatic --noinput
+```
 
-- Add `staticfiles` configuration in Render:
-  - `STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')`
-  - Use `WhiteNoise` for static file serving.
+### Add to `MIDDLEWARE` in `settings.py`
 
----
+```python
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    ...
+]
+```
 
-## 🧪 How to Use
+### Set Static File Storage
 
-### As a Customer
-- Register and log in.
-- Browse and book services.
-- View and track your bookings.
+```python
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+```
 
-### As a Service Provider
-- Log in and add your services.
-- View booking requests.
-- Update booking statuses.
-- Delete your services if needed.
+### Environment Variables
 
----
-
-## 📄 License
-
-This project is licensed under the MIT License.
+- `SECRET_KEY`
+- `DEBUG`
+- `ALLOWED_HOSTS`
+- `DATABASE_URL` (if using PostgreSQL)
 
 ---
 
-## 🤝 Contributing
+## 📁 Directory Structure
 
-Pull requests and issues are welcome!
+```
+schedulo/
+├── manage.py
+├── requirements.txt
+├── service_booking/       # Project Settings
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+├── service_app/           # Booking Application
+│   ├── models.py
+│   ├── views.py
+│   ├── forms.py
+│   ├── templates/
+│   └── urls.py
+├── static/                # Static Files
+└── templates/             # Global Templates
+```
+
+---
+
+## 🙌 Contributing
+
+Contributions welcome! For major changes, open an issue first.
+
+---
+
+## 📜 License
+
+Licensed under the [MIT License](https://opensource.org/licenses/MIT).
